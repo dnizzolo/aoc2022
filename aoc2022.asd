@@ -6,7 +6,8 @@
   :depends-on (:alexandria)
   :components ((:file "package")
                (:file "utils")
-               (:file "day01"))
+               (:file "day01")
+               (:file "day02"))
   :in-order-to ((asdf:test-op (asdf:test-op :aoc2022/test))))
 
 (asdf:defsystem :aoc2022/test
