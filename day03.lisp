@@ -11,14 +11,14 @@
         ((upper-case-p item) (+ 27 (- (char-code item) (char-code #\A))))
         (t (error "Unexpected item ~a." item))))
 
-(defun day03/part-1 (items)
+(defun sum-of-common-item-priority (items)
   (loop for line in items
         for half = (/ (length line) 2)
         sum (loop for c across line
                   until (find c line :start half)
                   finally (return (rucksack-item-priority c)))))
 
-(defun day03/part-2 (items)
+(defun sum-of-triplets-priority (items)
   (loop for (e1 e2 e3) on items by #'cdddr
         while e3
         sum (loop for c across e1
@@ -27,4 +27,5 @@
 
 (defun day03 ()
   (let ((items (read-rucksack-contents)))
-    (values (day03/part-1 items) (day03/part-2 items))))
+    (values (sum-of-common-item-priority items)
+            (sum-of-triplets-priority items))))

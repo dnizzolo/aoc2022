@@ -8,7 +8,8 @@
                (:file "utils")
                (:file "day01")
                (:file "day02")
-               (:file "day03"))
+               (:file "day03")
+               (:file "day04"))
   :in-order-to ((asdf:test-op (asdf:test-op :aoc2022/test))))
 
 (asdf:defsystem :aoc2022/test

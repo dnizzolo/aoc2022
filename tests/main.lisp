@@ -14,3 +14,8 @@
   (is-values (day03)
     (= 7737)
     (= 2697)))
+
+(define-test day04
+  (is-values (day04)
+    (= 562)
+    (= 924)))

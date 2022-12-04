@@ -15,7 +15,7 @@
         ((zerop dist) (+ 3 p2))
         (t (error "Unexpected turn ~a VS ~a." p1 p2))))
 
-(defun day02/part-1 (strat)
+(defun total-games-scores (strat)
   (loop for (o m) in strat sum (rock-paper-scissors-outcome o m)))
 
 (defun convert-strategy (move outcome)
@@ -24,9 +24,7 @@
         ((= outcome 3) (list move (1+ (mod move 3))))
         (t (error "Unexpected outcome ~a." outcome))))
 
-(defun day02/part-2 (strat)
-  (day02/part-1 (loop for (i r) in strat collect (convert-strategy i r))))
-
 (defun day02 ()
   (let ((strat (read-rock-paper-scissors-strategy)))
-    (values (day02/part-1 strat) (day02/part-2 strat))))
+    (values (total-games-scores strat)
+            (total-games-scores (loop for (i r) in strat collect (convert-strategy i r))))))

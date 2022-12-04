@@ -10,16 +10,6 @@
               into els
             finally (return (make-array (length els) :initial-contents els))))))
 
-(defun day01/part-1 ()
-  (multiple-value-bind (v _) (day01)
-    (declare (ignorable _))
-    v))
-
-(defun day01/part-2 ()
-  (multiple-value-bind (_ v) (day01)
-    (declare (ignorable _))
-    v))
-
 (defun day01 ()
   (let ((cals (subseq (sort (read-calories) #'>) 0 3)))
     (values (aref cals 0) (reduce #'+ cals))))
