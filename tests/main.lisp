@@ -19,3 +19,8 @@
   (is-values (day04)
     (= 562)
     (= 924)))
+
+(define-test day05
+  (is-values (day05)
+    (string= "DHBJQJCCW")
+    (string= "WJVRLSJJT")))

@@ -5,8 +5,8 @@
     (with-open-file (in filename)
       (loop for line = (read-line in nil)
             while line
-            for opponent = (1+ (- (char-code (char line 0)) (char-code #\A)))
-            for mine = (1+ (- (char-code (char line 2)) (char-code #\X)))
+            for opponent = (- (char-code (char line 0)) #.(1- (char-code #\A)))
+            for mine = (- (char-code (char line 2)) #.(1- (char-code #\X)))
             collect (list opponent mine)))))
 
 (defun rock-paper-scissors-outcome (p1 p2 &aux (dist (- p1 p2)))

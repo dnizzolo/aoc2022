@@ -7,9 +7,10 @@
             while line collect line))))
 
 (defun rucksack-item-priority (item)
-  (cond ((lower-case-p item) (1+ (- (char-code item) (char-code #\a))))
-        ((upper-case-p item) (+ 27 (- (char-code item) (char-code #\A))))
-        (t (error "Unexpected item ~a." item))))
+  (- (char-code item)
+     (if (upper-case-p item)
+         #.(- (char-code #\A) 27)
+         #.(- (char-code #\a) 1))))
 
 (defun sum-of-common-item-priority (items)
   (loop for line in items
