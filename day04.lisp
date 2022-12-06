@@ -1,4 +1,8 @@
-(in-package :aoc2022)
+(defpackage :aoc2022.04
+  (:documentation "Camp Cleanup.")
+  (:use :cl :aoc2022.utils))
+
+(in-package :aoc2022.04)
 
 (defun read-cleanup-assignment-pairs (&optional (relative-pathname #p"inputs/day04.txt"))
   (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname)))
@@ -15,3 +19,7 @@
     (values
      (loop for (a b c d) in pairs count (or (<= a c d b) (<= c a b d)))
      (loop for (a b c d) in pairs count (or (<= a c b) (<= c a d))))))
+
+(define-test 4
+  (= 562)
+  (= 924))

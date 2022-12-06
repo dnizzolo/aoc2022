@@ -1,4 +1,8 @@
-(in-package :aoc2022)
+(defpackage :aoc2022.05
+  (:documentation "Supply Stacks.")
+  (:use :cl :aoc2022.utils))
+
+(in-package :aoc2022.05)
 
 (defun read-cargo-stacks-and-moves (&optional (relative-pathname #p"inputs/day05.txt"))
   (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname))
@@ -37,3 +41,7 @@
              (setf (gethash from stacks) (nthcdr amount (gethash from stacks))
                    (gethash to stacks) (nconc moved (gethash to stacks))))
         finally (return (values part-one (top-of-cargo-stacks stacks)))))
+
+(define-test 5
+  (string= "DHBJQJCCW")
+  (string= "WJVRLSJJT"))

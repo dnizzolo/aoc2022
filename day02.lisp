@@ -1,4 +1,8 @@
-(in-package :aoc2022)
+(defpackage :aoc2022.02
+  (:documentation "Rock Paper Scissors.")
+  (:use :cl :aoc2022.utils))
+
+(in-package :aoc2022.02)
 
 (defun read-rock-paper-scissors-strategy (&optional (relative-pathname #p"inputs/day02.txt"))
   (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname)))
@@ -28,3 +32,7 @@
   (let ((strat (read-rock-paper-scissors-strategy)))
     (values (total-games-scores strat)
             (total-games-scores (loop for (i r) in strat collect (convert-strategy i r))))))
+
+(define-test 2
+  (= 15523)
+  (= 15702))

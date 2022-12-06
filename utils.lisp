@@ -1,4 +1,22 @@
-(in-package :aoc2022)
+(defpackage :aoc2022.utils
+  (:documentation "Utilities for Advent of Code.")
+  (:use :cl)
+  (:local-nicknames (:a :alexandria.2))
+  (:export :all-different-p
+           :parse-integers-from-string
+           :triangular
+           :bit-vector-to-integer
+           :extended-gcd
+           :modular-inverse
+           :integer-not-invertible-in-modulo
+           :define-test))
+
+(in-package :aoc2022.utils)
+
+(defun all-different-p (sequence &key (test #'eql))
+  "Check if all elements in a sequence are different, i.e., the
+sequence is a set."
+  (every (lambda (item) (= 1 (count item sequence :test test))) sequence))
 
 (defun parse-integers-from-string (string &key (radix 10))
   "Parse all the integers in STRING ignoring other contents and return
@@ -73,3 +91,13 @@ Algorithm."
    (lambda (condition stream)
      (with-slots (integer modulo) condition
        (format stream "~&~a is not invertible modulo ~a." integer modulo)))))
+
+(defmacro define-test (day (comparator-1 expected-part-1) (comparator-2 expected-part-2))
+  "Define a test for a certain DAY with expected results for both parts
+of the problem."
+  (let ((test-function-symbol (intern (format nil "TEST-DAY-~2,'0d" day)))
+        (day-function-symbol (find-symbol (format nil "DAY~2,'0d" day))))
+    `(1am:test ,test-function-symbol
+       (multiple-value-bind (part-1 part-2) (,day-function-symbol)
+         (1am:is (,comparator-1 ,expected-part-1 part-1))
+         (1am:is (,comparator-2 ,expected-part-2 part-2))))))

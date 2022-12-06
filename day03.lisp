@@ -1,4 +1,8 @@
-(in-package :aoc2022)
+(defpackage :aoc2022.03
+  (:documentation "Rucksack Reorganization.")
+  (:use :cl :aoc2022.utils))
+
+(in-package :aoc2022.03)
 
 (defun read-rucksack-contents (&optional (relative-pathname #p"inputs/day03.txt"))
   (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname)))
@@ -30,3 +34,7 @@
   (let ((items (read-rucksack-contents)))
     (values (sum-of-common-item-priority items)
             (sum-of-triplets-priority items))))
+
+(define-test 3
+  (= 7737)
+  (= 2697))
