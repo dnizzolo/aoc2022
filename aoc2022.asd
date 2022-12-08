@@ -3,14 +3,16 @@
   :author "Daniele Nizzolo <dani.nizzolo@gmail.com>"
   :license "MIT"
   :serial t
-  :depends-on (:1am :alexandria)
+  :depends-on (:1am :alexandria :one-more-re-nightmare)
   :components ((:file "utils")
                (:file "day01")
                (:file "day02")
                (:file "day03")
                (:file "day04")
                (:file "day05")
-               (:file "day06"))
+               (:file "day06")
+               (:file "day07")
+               (:file "day08"))
   :in-order-to ((asdf:test-op (asdf:test-op :aoc2022/test))))
 
 (asdf:defsystem :aoc2022/test

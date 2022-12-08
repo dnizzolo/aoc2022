@@ -93,9 +93,9 @@ Algorithm."
        (format stream "~&~a is not invertible modulo ~a." integer modulo)))))
 
 (defmacro define-test (day (comparator-1 expected-part-1) (comparator-2 expected-part-2))
-  "Define a test for a certain DAY with expected results for both parts
+  "Define a test for the given DAY with expected results for both parts
 of the problem."
-  (let ((test-function-symbol (intern (format nil "TEST-DAY-~2,'0d" day)))
+  (let ((test-function-symbol (intern (format nil "TEST-DAY~2,'0d" day)))
         (day-function-symbol (find-symbol (format nil "DAY~2,'0d" day))))
     `(1am:test ,test-function-symbol
        (multiple-value-bind (part-1 part-2) (,day-function-symbol)
