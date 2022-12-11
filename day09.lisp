@@ -17,15 +17,15 @@
     (loop for (direction amount) in motions do
       (loop repeat amount do
         (ecase direction
-          (:U (incf (aref rope 0) #c(0 1)))
-          (:D (decf (aref rope 0) #c(0 1)))
-          (:L (decf (aref rope 0)))
-          (:R (incf (aref rope 0))))
-        (loop for i from 1 below size for diff = (- (aref rope (1- i)) (aref rope i)) do
+          (:U (incf (svref rope 0) #c(0 1)))
+          (:D (decf (svref rope 0) #c(0 1)))
+          (:L (decf (svref rope 0)))
+          (:R (incf (svref rope 0))))
+        (loop for i from 1 below size for diff = (- (svref rope (1- i)) (svref rope i)) do
           (unless (<= (max (abs (realpart diff)) (abs (imagpart diff))) 1)
-            (incf (aref rope i) (complex (a:clamp (realpart diff) -1 1)
+            (incf (svref rope i) (complex (a:clamp (realpart diff) -1 1)
                                          (a:clamp (imagpart diff) -1 1)))))
-        (setf (gethash (aref rope (1- size)) places) t)))
+        (setf (gethash (svref rope (1- size)) places) t)))
     (hash-table-count places)))
 
 (defun day09 ()

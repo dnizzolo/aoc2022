@@ -16,7 +16,7 @@
 
 (defun day01 ()
   (let ((cals (subseq (sort (read-calories) #'>) 0 3)))
-    (values (aref cals 0) (reduce #'+ cals))))
+    (values (svref cals 0) (reduce #'+ cals))))
 
 (define-test 1
   (= 67016)

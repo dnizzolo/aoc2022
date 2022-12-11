@@ -1,8 +1,9 @@
 (defpackage :aoc2022.utils
   (:documentation "Utilities for Advent of Code.")
   (:use :cl)
-  (:local-nicknames (:a :alexandria.2))
-  (:export :all-different-p
+  (:local-nicknames (:a :alexandria.2) (:bq :bodge-queue))
+  (:export :list-to-queue
+           :all-different-p
            :parse-integers-from-string
            :triangular
            :bit-vector-to-integer
@@ -13,9 +14,15 @@
 
 (in-package :aoc2022.utils)
 
+(defun list-to-queue (list &aux (q (bq:make-queue :initial-buffer-size (length list))))
+  "Create a queue with the elements of LIST in the order they appear."
+  (dolist (item list)
+    (bq:queue-push q item))
+  q)
+
 (defun all-different-p (sequence &key (test #'eql))
-  "Check if all elements in a sequence are different, i.e., the
-sequence is a set."
+  "Check if the elements in SEQUENCE are all different, i.e., SEQUENCE
+is a set."
   (every (lambda (item) (= 1 (count item sequence :test test))) sequence))
 
 (defun parse-integers-from-string (string &key (radix 10))

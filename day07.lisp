@@ -43,7 +43,7 @@
         (regex (omrn:compile-regular-expression "($ )*«[¬ ]+» *«[¬ ]*»")))
     (flet ((match (string)
              (let ((result (omrn:first-string-match regex string)))
-               (list (aref result 1) (aref result 2)))))
+               (list (svref result 1) (svref result 2)))))
       (with-open-file (in filename)
         (loop with root-dir = (make-instance 'dir :name "/")
               with current-dir = root-dir
