@@ -2,7 +2,8 @@
   (:documentation "Utilities for Advent of Code.")
   (:use :cl)
   (:local-nicknames (:a :alexandria.2) (:bq :bodge-queue))
-  (:export :list-to-queue
+  (:export :position-2d
+           :list-to-queue
            :all-different-p
            :parse-integers-from-string
            :triangular
@@ -13,6 +14,16 @@
            :define-test))
 
 (in-package :aoc2022.utils)
+
+(defun position-2d (item array &key (test #'eql))
+  "Find the first position in ARRAY which is equal to ITEM as defined by
+TEST. ARRAY is a two-dimensional array. Return the two indices of the
+occurrence as multiple values."
+  (destructuring-bind (m n) (array-dimensions array)
+    (dotimes (i m)
+      (dotimes (j n)
+        (when (funcall test item (aref array i j))
+          (return-from position-2d (values i j)))))))
 
 (defun list-to-queue (list &aux (q (bq:make-queue :initial-buffer-size (length list))))
   "Create a queue with the elements of LIST in the order they appear."
