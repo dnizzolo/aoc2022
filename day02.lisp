@@ -14,19 +14,19 @@
             collect (list opponent mine)))))
 
 (defun rock-paper-scissors-outcome (p1 p2 &aux (dist (- p1 p2)))
-  (cond ((or (= dist 2) (= dist -1)) (+ 6 p2))
-        ((or (= dist -2) (= dist 1)) p2)
-        ((zerop dist) (+ 3 p2))
-        (t (error "Unexpected turn ~a VS ~a." p1 p2))))
+  (ecase dist
+    ((2 -1) (+ 6 p2))
+    ((-2 1) p2)
+    (0 (+ 3 p2))))
 
 (defun total-games-scores (strat)
   (loop for (o m) in strat sum (rock-paper-scissors-outcome o m)))
 
 (defun convert-strategy (move outcome)
-  (cond ((= outcome 2) (list move move))
-        ((= outcome 1) (list move (if (= move 1) 3 (1- move))))
-        ((= outcome 3) (list move (1+ (mod move 3))))
-        (t (error "Unexpected outcome ~a." outcome))))
+  (ecase outcome
+    (2 (list move move))
+    (1 (list move (if (= move 1) 3 (1- move))))
+    (3 (list move (1+ (mod move 3))))))
 
 (defun day02 ()
   (let ((strat (read-rock-paper-scissors-strategy)))

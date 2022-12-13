@@ -1,6 +1,5 @@
 (defpackage :aoc2022.11
   (:documentation "Monkey in the Middle.")
-  (:local-nicknames (:bq :bodge-queue))
   (:use :cl :aoc2022.utils))
 
 (in-package :aoc2022.11)
@@ -14,7 +13,11 @@
 
 (defun read-monkeys (&optional (relative-pathname #p"inputs/day11.txt"))
   (flet ((parse-initial-items (string)
-           (list-to-queue (parse-integers-from-string string)))
+           (let ((ints (parse-integers-from-string string)))
+             (make-array (length ints)
+                         :initial-contents ints
+                         :adjustable t
+                         :fill-pointer t)))
          (parse-operation (string)
            (let ((int (car (parse-integers-from-string string)))
                  (mulp (find #\* string)))
@@ -53,19 +56,18 @@
     (dotimes (_ steps)
       (loop for mon across monkeys for i from 0 do
         (with-slots (items operation divisor target-true target-false) mon
-          (loop until (bq:queue-empty-p items) do
-            (let* ((item (bq:queue-pop items))
-                   (worry (if worried
-                              (mod (funcall operation item) lcm)
-                              (floor (/ (funcall operation item) 3))))
-                   (divisible (zerop (mod worry divisor))))
-              (incf (svref inspects i))
-              (bq:queue-push (monkey-items
-                              (svref monkeys
-                                     (if divisible
-                                         target-true
-                                         target-false)))
-                             worry))))))
+          (unless (zerop (length items))
+            (incf (svref inspects i) (length items))
+            (loop for item across items
+                  for worry = (if worried
+                                  (mod (funcall operation item) lcm)
+                                  (floor (/ (funcall operation item) 3)))
+                  for divisible = (zerop (mod worry divisor))
+                  do (vector-push-extend
+                      worry
+                      (monkey-items
+                       (svref monkeys (if divisible target-true target-false)))))
+            (setf (fill-pointer items) 0)))))
     (setf inspects (sort inspects #'>))
     (* (svref inspects 0) (svref inspects 1))))
 

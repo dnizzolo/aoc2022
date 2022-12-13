@@ -36,6 +36,9 @@
     (when (sample-clock-p clock)
       (push (list clock x) samples))))
 
+(defun sample-clock-p (clock)
+  (zerop (mod (- clock 20) 40)))
+
 (defmethod run :around ((inst instruction) (state machine-state))
   (dotimes (_ (cycles inst)) (tick state))
   (call-next-method))
@@ -44,9 +47,6 @@
 
 (defmethod run ((inst addx) (state machine-state))
   (incf (x-register state) (addx-value inst)))
-
-(defun sample-clock-p (clock)
-  (zerop (mod (- clock 20) 40)))
 
 (defun read-program (&optional (relative-pathname #p"inputs/day10.txt"))
   (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname)))

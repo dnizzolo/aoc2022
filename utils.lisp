@@ -2,16 +2,17 @@
   (:documentation "Utilities for Advent of Code.")
   (:use :cl)
   (:local-nicknames (:a :alexandria.2) (:bq :bodge-queue))
-  (:export :position-2d
-           :list-to-queue
-           :all-different-p
-           :parse-integers-from-string
-           :triangular
-           :bit-vector-to-integer
-           :extended-gcd
-           :modular-inverse
-           :integer-not-invertible-in-modulo
-           :define-test))
+  (:export
+   :position-2d
+   :list-to-queue
+   :all-different-p
+   :parse-integers-from-string
+   :triangular
+   :bit-vector-to-integer
+   :extended-gcd
+   :modular-inverse
+   :chinese-remainder-theorem
+   :define-test))
 
 (in-package :aoc2022.utils)
 
@@ -110,12 +111,28 @@ Algorithm."
      (with-slots (integer modulo) condition
        (format stream "~&~a is not invertible modulo ~a." integer modulo)))))
 
+(defun chinese-remainder-theorem (terms moduli)
+  "Apply the Chinese Remainder Theorem to solve the system of
+congruences given by TERMS and MODULI and return the smallest positive
+integer solution."
+  (declare (type (vector integer *) terms moduli))
+  (assert (= (length terms) (length moduli)))
+  (let* ((n (reduce #'* moduli))
+         (m (map 'vector (lambda (r) (/ n r)) moduli))
+         (y (map 'vector #'modular-inverse m moduli)))
+    (loop with result = 0
+          for b across terms
+          for k across m
+          for i across y
+          do (setf result (mod (+ result (mod (* b k i) n)) n))
+          finally (return result))))
+
 (defmacro define-test (day (comparator-1 expected-part-1) (comparator-2 expected-part-2))
   "Define a test for the given DAY with expected results for both parts
 of the problem."
   (let ((test-function-symbol (intern (format nil "TEST-DAY~2,'0d" day)))
         (day-function-symbol (find-symbol (format nil "DAY~2,'0d" day))))
-    `(1am:test ,test-function-symbol
-       (multiple-value-bind (part-1 part-2) (,day-function-symbol)
-         (1am:is (,comparator-1 ,expected-part-1 part-1))
-         (1am:is (,comparator-2 ,expected-part-2 part-2))))))
+    `(parachute:define-test ,test-function-symbol
+       (parachute:is-values (,day-function-symbol)
+         (,comparator-1 ,expected-part-1)
+         (,comparator-2 ,expected-part-2)))))

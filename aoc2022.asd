@@ -3,7 +3,7 @@
   :author "Daniele Nizzolo <dani.nizzolo@gmail.com>"
   :license "MIT"
   :serial t
-  :depends-on (:1am :alexandria :one-more-re-nightmare :bodge-queue)
+  :depends-on (:parachute :alexandria :one-more-re-nightmare :bodge-queue)
   :components ((:file "utils")
                (:file "day01")
                (:file "day02")
@@ -16,7 +16,8 @@
                (:file "day09")
                (:file "day10")
                (:file "day11")
-               (:file "day12"))
+               (:file "day12")
+               (:file "day13"))
   :in-order-to ((asdf:test-op (asdf:test-op :aoc2022/test))))
 
 (asdf:defsystem :aoc2022/test
@@ -24,4 +25,9 @@
   :author "Daniele Nizzolo <dani.nizzolo@gmail.com>"
   :license "MIT"
   :depends-on (:aoc2022)
-  :perform (test-op (op c) (uiop:symbol-call :1am :run)))
+  :perform (test-op (op c) (uiop:symbol-call
+                            :parachute
+                            :test
+                            (uiop:symbol-call
+                             :parachute
+                             :test-packages))))

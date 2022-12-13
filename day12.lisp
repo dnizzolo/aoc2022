@@ -16,9 +16,10 @@
 
 (defun accessiblep (grid start-i start-j end-i end-j)
   (flet ((elevation (char)
-           (cond ((char= char #\S) #.(char-code #\a))
-                 ((char= char #\E) #.(char-code #\z))
-                 (t (char-code char)))))
+           (case char
+             (#\S #.(char-code #\a))
+             (#\E #.(char-code #\z))
+             (t (char-code char)))))
     (let ((start (elevation (aref grid start-i start-j)))
           (end (elevation (aref grid end-i end-j))))
       (<= (- end start) 1))))
