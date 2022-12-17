@@ -1,0 +1,56 @@
+(defpackage :aoc2022.14
+  (:documentation "Regolith Reservoir.")
+  (:use :cl :aoc2022.utils))
+
+(in-package :aoc2022.14)
+
+(defun read-cave-structure (&optional (relative-pathname #p"inputs/day14.txt"))
+  (let ((filename (asdf:system-relative-pathname :aoc2022 relative-pathname))
+        (cave (make-hash-table :test #'equal)))
+    (with-open-file (in filename)
+      (loop for line = (read-line in nil) while line do
+        (loop for (xi yi xf yf) on (parse-integers-from-string line) by #'cddr
+              while yf
+              do (cond ((= xi xf)
+                        (loop for i from (min yi yf) to (max yi yf) do
+                          (setf (gethash (cons xi i) cave) :rock)))
+                       ((= yi yf)
+                        (loop for i from (min xi xf) to (max xi xf) do
+                          (setf (gethash (cons i yi) cave) :rock)))
+                       (t (error "Diagonal line detected ~a,~a -> ~a,~a." xi yi xf yf))))))
+    (values cave (loop for (_ . y) being the hash-keys of cave maximize y))))
+
+(defun next-grain-position (cave grain &aux (x (car grain)) (y (cdr grain)))
+  (let ((possible-positions `((,x . ,(1+ y)) (,(1- x) . ,(1+ y)) (,(1+ x) . ,(1+ y)))))
+    (loop for p in possible-positions unless (gethash p cave) return p)))
+
+(defvar *start-position* '(500 . 0))
+
+(defun spawn-grain (cave max-y &key use-floor)
+  (loop for curr = *start-position* then next
+        for next = (next-grain-position cave curr)
+        for (_ . y) = next
+        while (if use-floor (and next (< y (+ 2 max-y))) next)
+        when (and (not use-floor) (> y max-y))
+          return :off
+        finally (setf (gethash curr cave) :sand)))
+
+(defun solve-part-1 ()
+  (multiple-value-bind (cave max-y) (read-cave-structure)
+    (loop for i from 0
+          until (eq (spawn-grain cave max-y) :off)
+          finally (return i))))
+
+(defun solve-part-2 ()
+  (multiple-value-bind (cave max-y) (read-cave-structure)
+    (loop for i from 0
+          until (gethash *start-position* cave)
+          do (spawn-grain cave max-y :use-floor t)
+          finally (return i))))
+
+(defun day14 ()
+  (values (solve-part-1) (solve-part-2)))
+
+(define-test 14
+  (= 728)
+  (= 27623))

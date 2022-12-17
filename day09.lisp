@@ -24,7 +24,7 @@
         (loop for i from 1 below size for diff = (- (svref rope (1- i)) (svref rope i)) do
           (unless (<= (max (abs (realpart diff)) (abs (imagpart diff))) 1)
             (incf (svref rope i) (complex (a:clamp (realpart diff) -1 1)
-                                         (a:clamp (imagpart diff) -1 1)))))
+                                          (a:clamp (imagpart diff) -1 1)))))
         (setf (gethash (svref rope (1- size)) places) t)))
     (hash-table-count places)))
 
