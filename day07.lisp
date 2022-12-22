@@ -89,6 +89,4 @@
     (values (sum-size-of-dirs fs)
             (smallest-size-to-delete fs (+ +required-space+ (size fs) (- +total-space+))))))
 
-(define-test 7
-  (= 2031851)
-  (= 2568781))
+(define-test (= 2031851) (= 2568781))

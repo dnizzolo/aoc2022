@@ -19,6 +19,4 @@
     (values (datastream-start-marker data)
             (datastream-start-marker data :distinct-chars-required 14))))
 
-(define-test 6
-  (= 1343)
-  (= 2193))
+(define-test (= 1343) (= 2193))

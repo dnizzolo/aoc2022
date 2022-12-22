@@ -33,6 +33,4 @@
     (values (total-games-scores strat)
             (total-games-scores (loop for (i r) in strat collect (convert-strategy i r))))))
 
-(define-test 2
-  (= 15523)
-  (= 15702))
+(define-test (= 15523) (= 15702))

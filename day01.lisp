@@ -18,6 +18,4 @@
   (let ((cals (subseq (sort (read-calories) #'>) 0 3)))
     (values (svref cals 0) (reduce #'+ cals))))
 
-(define-test 1
-  (= 67016)
-  (= 200116))
+(define-test (= 67016) (= 200116))

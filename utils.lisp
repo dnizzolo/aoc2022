@@ -127,11 +127,15 @@ integer solution."
           do (setf result (mod (+ result (mod (* b k i) n)) n))
           finally (return result))))
 
-(defmacro define-test (day (comparator-1 expected-part-1) (comparator-2 expected-part-2))
-  "Define a test for the given DAY with expected results for both parts
-of the problem."
-  (let ((test-function-symbol (intern (format nil "TEST-DAY~2,'0d" day)))
-        (day-function-symbol (find-symbol (format nil "DAY~2,'0d" day))))
+(defmacro define-test ((comparator-1 expected-part-1) (comparator-2 expected-part-2))
+  "Define a test with expected results for both parts of the problem.
+
+The day and hence the name of said day's function are inferred from
+the name of the current package as per convention."
+  (let* ((package-name (package-name *package*))
+         (day-string (subseq package-name (1+ (position #\. package-name))))
+         (test-function-symbol (intern (format nil "TEST-DAY~a" day-string)))
+         (day-function-symbol (find-symbol (format nil "DAY~a" day-string))))
     `(parachute:define-test ,test-function-symbol
        (parachute:is-values (,day-function-symbol)
          (,comparator-1 ,expected-part-1)

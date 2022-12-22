@@ -41,6 +41,4 @@
             (gethash to stacks) (nconc moved (gethash to stacks))))
         finally (return (values part-one (top-of-cargo-stacks stacks)))))
 
-(define-test 5
-  (string= "DHBJQJCCW")
-  (string= "WJVRLSJJT"))
+(define-test (string= "DHBJQJCCW") (string= "WJVRLSJJT"))

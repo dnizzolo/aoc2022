@@ -35,6 +35,4 @@
     (values (sum-of-common-item-priority items)
             (sum-of-triplets-priority items))))
 
-(define-test 3
-  (= 7737)
-  (= 2697))
+(define-test (= 7737) (= 2697))

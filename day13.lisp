@@ -48,6 +48,4 @@
 (defun day13 (&aux (packets (read-packets)))
   (values (solve-part-1 packets) (solve-part-2 packets)))
 
-(define-test 13
-  (= 5506)
-  (= 21756))
+(define-test (= 5506) (= 21756))

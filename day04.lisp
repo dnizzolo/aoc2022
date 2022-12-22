@@ -20,6 +20,4 @@
      (loop for (a b c d) in pairs count (or (<= a c d b) (<= c a b d)))
      (loop for (a b c d) in pairs count (or (<= a c b) (<= c a d))))))
 
-(define-test 4
-  (= 562)
-  (= 924))
+(define-test (= 562) (= 924))

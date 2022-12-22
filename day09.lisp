@@ -33,6 +33,4 @@
     (values (count-places-seen-by-tail motions)
             (count-places-seen-by-tail motions :size 10))))
 
-(define-test 9
-  (= 6269)
-  (= 2557))
+(define-test (= 6269) (= 2557))

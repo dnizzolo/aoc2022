@@ -75,6 +75,4 @@
   (values (run-monkeys (read-monkeys))
           (run-monkeys (read-monkeys) :steps 10000 :worried t)))
 
-(define-test 11
-  (= 58786)
-  (= 14952185856))
+(define-test (= 58786) (= 14952185856))

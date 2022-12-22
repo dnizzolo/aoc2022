@@ -49,6 +49,4 @@
   (let ((grid (read-tree-grid)))
     (values (count-visible-trees grid) (highest-scenic-score grid))))
 
-(define-test 8
-  (= 1690)
-  (= 535680))
+(define-test (= 1690) (= 535680))

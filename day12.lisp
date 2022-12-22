@@ -56,6 +56,4 @@
                   :goal #\a
                   :descend t)))
 
-(define-test 12
-  (= 394)
-  (= 388))
+(define-test (= 394) (= 388))
